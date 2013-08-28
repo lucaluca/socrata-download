@@ -70,3 +70,6 @@ When you run `./run_all.sh`, the following things happen in order.
 6. `./s3-upload.sh` uploads all of the downloaded view metadata files to
     an S3 bucket, compressing them first.
 7. `./s3-download.sh` downloads and decompresses all of the files in the S3 bucket.
+
+## data.json
+`catalogs.sh` downloads the catalogs from the `/data.json` endpoints of each portal.
