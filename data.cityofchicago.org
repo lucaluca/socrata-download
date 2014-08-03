@@ -1,0 +1,12 @@
+--2014-08-02 21:29:09--  http://data.cityofchicago.org/views/cmb2-8jw8.json
+Resolving data.cityofchicago.org... 216.227.229.145
+Connecting to data.cityofchicago.org|216.227.229.145|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [application/json]
+Saving to: ‘data/data.cityofchicago.org/views/cmb2-8jw8’
+
+     0K .....                                                  74.4K=0.07s
+
+Last-modified header invalid -- time-stamp ignored.
+2014-08-02 21:29:10 (74.4 KB/s) - ‘data/data.cityofchicago.org/views/cmb2-8jw8’ saved [5511]
+

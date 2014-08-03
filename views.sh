@@ -14,7 +14,8 @@ else
   sleep_interval=0s
 fi
 
-tmp=$(mktemp)
+#tmp=$(mktemp)  # had to add this
+tmp=$SOCRATA_URL  # had to add this
 mkdir -p "$DIR"
 echo $tmp
 for viewid in $(cat "data/$SOCRATA_URL/viewids"); do
