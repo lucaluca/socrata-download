@@ -22,4 +22,8 @@ When it finishes, open the `create_csv.py` file and change the `portal`, `outfil
 * `geocoded` = 'Yes'
 * `view type` = 'tabular'
 
+You will need to use the provided dataset URL to gather information about the update frequency and ensure the dataset has a unique ID and that the dates have the proper interpretation (i.e., not `01/01/2014` standing in for the year `2014`).
+
+The file structure and outfile for the City of Bristol data portal is left in as an example.
+
 You may also be able to use the view IDs in `/rows-only/data` to write a script to hit a large number of Socrata data portals at once... if you want. 
