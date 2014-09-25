@@ -1,0 +1,12 @@
+--2014-09-25 12:23:49--  http://opendata.bristol.gov.uk/views/fumf-uy7h.json
+Resolving opendata.bristol.gov.uk... 137.117.197.9
+Connecting to opendata.bristol.gov.uk|137.117.197.9|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [application/json]
+Saving to: ‘data/opendata.bristol.gov.uk/views/fumf-uy7h’
+
+     0K .......... ........                                    83.7K=0.2s
+
+Last-modified header invalid -- time-stamp ignored.
+2014-09-25 12:23:50 (83.7 KB/s) - ‘data/opendata.bristol.gov.uk/views/fumf-uy7h’ saved [18955]
+

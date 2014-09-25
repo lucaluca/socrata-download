@@ -1,75 +1,25 @@
 Download Socrata Portals
 ======
-I download the contents of Socrata portals to a filesystem and then upload them
-to S3.
 
-## How to run (multiple portals)
+This README is for downloading specific metadata for ingestion into [Plenario](https://github.com/UrbanCCD-UChicago/plenario), one data portal at a time. See the [original repo](https://github.com/tlevine/socrata-download) for a detailed README on the original functionality. This README only covers a small portion of the original functionality, as well as added features (`create_csv.py`) not originally included.
 
-Set the parameters S3 bucket.
+At the moment (Sep 2014) Plenario can only accept data with a geospatial (lat-long) and temporal (date) component. This script lets you quickly find *all* datasets on a given data portal that meet those criteria. 
 
-    export SOCRATA_URLS=( data.cityofnewyork.us 
-    export SOCRATA_S3_BUCKET=socrata.appgen.me
+### How to run (single data portal)
 
-If you are using [Proxy Rack](http://www.proxyrack.com/) to get around API limits,
-set the wget proxy parameters.
+Say you want metadata for the City of Chicago data portal, which is located at <https://data.cityofchicago.org>. 
 
-    export http_proxy=
+Add `SOCRATA_URL` to your `~/.bash_profile` and set it to a string representing the root URL (without `https://`). In our case this would look like 
+`export SOCRATA_URL='data.cityofchicago.org'`
 
-Then run the main script.
+`cd` to the root folder and run `bash run_one.sh`.
 
-    ./run.sh
+This will run for a while downloading JSON metadata for every dataset on the City of Chicago data portal. 
 
-This runs `./portals.py` to get the list of all portals from socrata.com.
-Then it runs `./run_all.sh` (See below.) for each of the portals.
+When it finishes, open the `create_csv.py` file and change the `portal`, `outfile`, and `numfiles` variables as specified there. Then run `python create_csv.py`. This will create a tab-delimited text file in the `/data/data.cityofchicago.org` folder with the same name as `outfile`. Open that file in Excel or Google Sheets and filter for datasets that meet Plenario's criteria:
 
-API limits appear to apply across all of Socrata, not just within
-data portal, so these different portals just get run in series.
+* `temporal field` has a value
+* `geocoded` = 'Yes'
+* `view type` = 'tabular'
 
-## How to run (one portal)
-
-Set the parameters.
-
-    SOCRATA_URL=data.cityofnewyork.us
-    SOCRATA_S3_BUCKET=socrata.appgen.me
-
-Then run the main script.
-
-    ./run_one.sh
-
-The result will be the following file structure, both locally and in the bucket.
-
-    data.cityofnewyork.us/
-      searches/
-        1
-        2
-        ...
-      views/
-        abcd-efgh
-        ijkl-mnop
-        ...
-      rows/
-        abcd-efgh
-        ijkl-mnop
-
-## Components of the run script.
-When you run `./run_all.sh`, the following things happen in order.
-
-1. `./search.sh` searches/browses through all of the datasets/maps/views/&c.
-    and saves all of the files as `$SOCRATA_URL/searches/$page_number`.
-2. `./viewids.py` returns all of the 4x4 Socrata view id codes from the
-    files in `$SOCRATA_URL/searches`.
-3. `./views.sh` downloads the metadata files for each of the viewids and
-    and saves all of the files as `$SOCRATA_URL/views/$viewid`.
-4. `./rows.sh` downloads the data files for each of the viewids as CSV
-    and saves all of the files as `$SOCRATA_URL/rows/$viewid`.
-5. `./builddb.py` makes a SQLite3 database with one row per dataset, using
-    features from the view and row files. It contains one table, called
-    `datasets`. One of the columns is named `socrata.url`, so unioning it
-    with databases from other portals will be easy. It is named
-    `$SOCRATA_URL/features.db`.
-6. `./s3-upload.sh` uploads all of the downloaded view metadata files to
-    an S3 bucket, compressing them first.
-7. `./s3-download.sh` downloads and decompresses all of the files in the S3 bucket.
-
-## data.json
-`catalogs.sh` downloads the catalogs from the `/data.json` endpoints of each portal.
+You may also be able to use the view IDs in `/rows-only/data` to write a script to hit a large number of Socrata data portals at once... if you want. 
